@@ -16,6 +16,22 @@ let allQuestions = [
         correct: 8,
         answers: [8,2,4,5],
     },
+    {
+        question: "4+0",
+        correct: 4,
+        answers: [8,4,0,3],
+    },
+    {
+        question: "x+99=17",
+        correct: -82,
+        answers: [82,116,-82,-116],
+    },
+    {
+        question: "16:4=",
+        correct: 4,
+        answers: [7,4,0,3],
+    },
+
 ];
 start.addEventListener("click", startProgram)
 function startProgram(){
@@ -31,8 +47,32 @@ function generateQuestion(){
     let answers = allQuestions[currentQuestion].answers;
     let btn_block = ''
     for (let i of answers){
-        btn_block += `<button class="btn">${i}</button>`;
+        btn_block += `<button class="btn" onclick="checkQuestion(${i})">${i}</button>`;
 
     }
     main.innerHTML += `<nav class="btn_block">${btn_block}</nav>`
+}
+
+function checkQuestion(num){
+    console.log("a")
+    let correct = allQuestions[currentQuestion].correct;
+    if (num == correct) {
+        countSuccess += 1;
+    }
+    currentQuestion++
+    if (allQuestions.length > currentQuestion){
+        generateQuestion()
+    }
+    else {
+        stopQuiz()
+    }
+    function stopQuiz(){
+        start.classList.remove("none");
+        main.classList.add("none");
+        end.classList.remove("none");
+        end.innerHTML =`Решено ${countSuccess} из ${allQuestions.length}`;
+
+        currentQuestion = 0;
+        countSuccess = 0;
+    }
 }
